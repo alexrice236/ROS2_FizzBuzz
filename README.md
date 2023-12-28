@@ -72,7 +72,7 @@ $ tree ~/ros2_ws/src/fizzbuzz
 ```
 
 ### Compiling the `fizzbuzz` Package
-Now that we have a package, we can compile it to see if we created the package and workspace correctly. To compile the packages in the workspace first make sure that your ROS2 installation's setup file is sourced as part of your terminal's pre-run script (see [Prerequisites](###-prerequisites)). Or you can manually `source` the setup file in your current terminal.
+Now that we have a package, we can compile it to see if we created the package and workspace correctly. To compile the packages in the workspace first make sure that your ROS2 installation's setup file is sourced as part of your terminal's pre-run script (see [Prerequisites](#prerequisites)). Or you can manually `source` the setup file in your current terminal.
 
 ```shell
 source /opt/ros/humble/setup.bash
