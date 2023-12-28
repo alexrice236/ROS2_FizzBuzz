@@ -100,7 +100,7 @@ Summary: 1 package finished [1.90s]
 ```
 
 > [!NOTE]
-> ignore the `SetuptoolsDeprecationWarning` message. This is because ROS2 was designed with `setuptools` package build system that is beind deprecated by newer Python versions.
+> ignore the `SetuptoolsDeprecationWarning` message. This is because ROS2 was designed with `setuptools` package build system that is being deprecated by newer Python versions.
 
 ## Number Publisher Node
 Now that we have a package, it is time to create a node that publishes numbers that we can use to play the FizzBuzz game. More information on creating ROS2 nodes in python can be found here: https://docs.ros.org/en/humble/Tutorials/Writing-A-Simple-Py-Publisher-And-Subscriber.html.
@@ -374,7 +374,7 @@ class FizzBuzzNode(Node):
         self.number_sub = self.create_subscription(MESSAGE_TYPE, "TOPIC_NAME", self.number_callback, 10)
 
     def number_callback(self, msg):
-        # this function is called whenever a number is recived.
+        # this function is called whenever a number is received.
 
         number = msg.data 
 
