@@ -1,7 +1,7 @@
 # ROS2 FizzBuzz Tutorial
 
 ## Overview
-In this tutorial you will create a version of the classic FizzBuzz programming exercise using ROS2 Humble and Python 3. 
+In this tutorial you will create a version of the classic FizzBuzz programming exercise using ROS2 and Python 3. 
 
 This tutorial is meant to be interactive, so the code on this page will not work by itself. You will have to make some changes and complete the parts labeled `TODO`. If you run into problems or get stuck, a completed version of the code is available at https://github.com/MASLAB/ROS2_FizzBuzz. If you find errors in this document you can also submit bug reports on that repository.
 
@@ -15,35 +15,36 @@ This tutorial is meant to be interactive, so the code on this page will not work
 1. Examine the node structure with rqt
 
 ### Prerequisites
-If you haven't already, you will need to install ROS2 Humble. Here is a link for instructions on how to install ROS2: https://docs.ros.org/en/humble/Installation.html. 
+If you haven't already, you will need to install ROS2. Here is a link for instructions on how to install ROS2: https://github.com/MASLAB/ros2-setup.
 
-We highly recommend setting up a virtual machine with Ubuntu 22.04 to experiment with ROS2 besides the team provided NUCs. You can use either 
-1. VirtualBox (free at https://www.virtualbox.org) 
-1. Windows/Linux - VMware Workstation (available through IS&T https://ist.mit.edu/vmware/workstation) 
-1. Mac - VMware Fusion (also from IS&T https://ist.mit.edu/vmware/fusion). 
+To use ROS2 make sure that your ROS2 installation's setup file is sourced as part of your terminal's pre-run script. This is already set up if you used the automatic setup procedure. Or you can manually `source` the setup file in your current terminal.
 
-There are a lot of online resources about setting up Ubuntu for either of the platforms. Feel free to search them up or ask the staffs for advise.
+```shell
+source /opt/ros/jazzy/setup.bash
+```
 
-REMINDER: Source the setup script for ROS related commands. For Ubuntu, You can add it to your terminal pre-run commands by adding `source /opt/ros/humble/setup.bash` to the end of your `~/.bashrc`.
+> [!TIP]
+> To copy/paste in Ubuntu terminal, use `Ctrl` + `Shift` + `C`/`V`
 
+You can also permanently add this line to your bash profile such that it is ran everytime you open your terminal using this command:
 ``` shell
-echo "source /opt/ros/humble/setup.bash" >> ~/.bashrc
+echo "source /opt/ros/jazzy/setup.bash" >> ~/.bashrc
 ```
 
 ## Creating a Workspace
-To start working with ROS2 you will need a workspace. To create one you can run the following command. It will make a workspace in your home (`~`) directory called `ros2_ws` and a `src` directory inside the workspace where your packages will go. For more information on setting up a workspace see this tutorial: https://docs.ros.org/en/humble/Tutorials/Beginner-Client-Libraries/Creating-A-Workspace/Creating-A-Workspace.html.
+To start working with ROS2 you will need a workspace. To create one you can run the following command. It will make a workspace in your home (`~`) directory called `ros2_ws` and a `src` directory inside the workspace where your packages will go. For more information on setting up a workspace see this tutorial: https://docs.ros.org/en/jazzy/Tutorials/Beginner-Client-Libraries/Creating-A-Workspace/Creating-A-Workspace.html.
 
 ``` shell
 mkdir -p ~/ros2_ws/src
 ```
 
 ## Creating a Package
-For more information regarding ROS2 packages, see this tutorial: https://docs.ros.org/en/humble/Tutorials/Creating-Your-First-ROS2-Package.html.  
+For more information regarding ROS2 packages, see this tutorial: https://docs.ros.org/en/jazzy/Tutorials/Creating-Your-First-ROS2-Package.html.  
 
 ### Making the `fizzbuzz` Package
 ROS2 supports packages written in Python, c++, or combination of both. More information about different package setup is available in the tutorial link above. In this tutorial, you are going to make a Python package.
 
-The first step is to create a new package in your workspace. Navigate to the src directory in your `ros2_ws` workspace and create a package named `fizzbuzz`.
+The first step is to create a new package in your workspace. Navigate to the src directory in your `ros2_ws` workspace and create a Python ROS package named `fizzbuzz`.
 
 ``` shell
 cd ~/ros2_ws/src
@@ -72,13 +73,7 @@ $ tree ~/ros2_ws/src/fizzbuzz
 ```
 
 ### Compiling the `fizzbuzz` Package
-Now that we have a package, we can compile it to see if we created the package and workspace correctly. To compile the packages in the workspace first make sure that your ROS2 installation's setup file is sourced as part of your terminal's pre-run script (see [Prerequisites](#prerequisites)). Or you can manually `source` the setup file in your current terminal.
-
-```shell
-source /opt/ros/humble/setup.bash
-```
-
-Now that ROS2 is set up in the current terminal you can to navigate to the top of your workspace and run `colcon build`.
+Now that we have a package, we can compile it to see if we created the package and workspace correctly. Navigate to the top of your workspace and run `colcon build`.
 
 ```shell
 cd ~/ros2_ws
@@ -89,25 +84,22 @@ If everything worked the output from `colcon build` will look something like thi
 
 ```shell
 Starting >>> fizzbuzz
---- stderr: fizzbuzz                   
-/usr/lib/python3/dist-packages/setuptools/command/install.py:34: SetuptoolsDeprecationWarning: setup.py install is deprecated. Use build and pip and other standards-based tools.
-  warnings.warn(
----
-Finished <<< fizzbuzz [1.01s]
+Finished <<< fizzbuzz [2.59s]          
 
-Summary: 1 package finished [1.90s]
-  1 package had stderr output: fizzbuzz
+Summary: 1 package finished [2.98s]
 ```
 
-> [!NOTE]
-> ignore the `SetuptoolsDeprecationWarning` message. This is because ROS2 was designed with `setuptools` package build system that is being deprecated by newer Python versions.
+> [!IMPORTANT]
+> Make sure you run `colcon build` in the root of your ROS workspace, **NOT** in `src` for any other subfolder. If you accidentally do so, simply delete the `build`, `log`, and `install` folders generated in `src` or any other subfolder.
 
 ## Number Publisher Node
+For the following parts, using a code editor such as [VSCode](https://code.visualstudio.com/) is recommended. VSCode can be downloaded at: https://code.visualstudio.com/Download or in Ubuntu App Center. Make sure to install the Python plugin to enable better syntax hightlighting and code hints. Open the `~/ros2_ws` folder in VSCode (`File` > `Open Folder...`) to edit files and run terminals (`Terminal` > `New Terminal` or `Ctrl` + `` ` ``) directly in VSCode.
+
 Now that we have a package, it is time to create a node that publishes numbers that we can use to play the FizzBuzz game. More information on creating ROS2 nodes in python can be found here: https://docs.ros.org/en/humble/Tutorials/Writing-A-Simple-Py-Publisher-And-Subscriber.html.
 
 ### Starting off with a Minimal Publisher
 #### Code
-The number publisher node will live in the `fizzbuzz` folder inside the `fizzbuzz` package we made in the last section. Now we will start creating the number publishing node called `number_publisher_node.py`. Here is a minimal publisher node template from the ROS2 python node tutorial that we can use as a starting point. Create a new file at the path `~/ros2_ws/src/fizzbuzz/fizzbuzz/number_publisher_node.py` and paste in the following code.
+The number publisher node will live in the `fizzbuzz` folder inside the `fizzbuzz` package we made in the last section. Now we will start creating the number publishing node called `number_publisher_node.py`. Here is a minimal publisher node template from the ROS2 python node tutorial that we can use as a starting point. Create a new file at the path `~/ros2_ws/src/fizzbuzz/fizzbuzz/number_publisher_node.py` and paste in the following code (Right click on the `/src/fizzbuzz/fizzbuzz` folder in VSCode and select `New File...`).
 
 ```python
 import rclpy
@@ -191,7 +183,7 @@ Right now this minimal publisher node publishes strings instead of numbers. We n
 First let's change all the places where it says `MinimalPublisher` or `minimal_publisher` to `NumberPublisher` or `number_publisher` respectively. Make sure you change the name in the `super().__init__` function call as well. This function lets the rest of ROS know what the node's name is. 
 
 #### Change the Message Type
-Right now the message being used is the `std_msgs/String` message. For the number publisher we want to publish integers. Find the appropriate message type to replace with String. The list of all of the messages in `std_msgs` can be found [here](https://github.com/ros2/common_interfaces/blob/galactic/std_msgs/README.md). Make sure to replace the message type in the import, where the publisher is created, and in the callback. Rename the topic from `topic` to something more descriptive such as `numbers`. 
+Right now the message being used is the `std_msgs/String` message. For the number publisher we want to publish integers. Find the appropriate message type to replace with String. The list of all of the messages in `std_msgs` can be found [here](https://github.com/ros2/common_interfaces/blob/jazzy/std_msgs/README.md). Make sure to replace the message type in the import, where the publisher is created, and in the callback. Rename the topic from `topic` to something more descriptive such as `numbers`. 
 
 #### Make it Count!
 Now the node is nearly all set up to publish integers instead of strings. All that is
@@ -202,7 +194,7 @@ increasing by 1 every message.
 ### Adding the Node to the Build
 To compile our node we need to let the `colcon` build tool know what the node needs and how to run it. To do that we need to add some lines to `package.xml` and `setup.py`.
 
-Add the following lines to `package.xml`.
+Add the following lines to `package.xml` between `<license>...` and `<test_depend...>` sections.
 
 ```xml
 <exec_depend>rclpy</exec_depend>
@@ -233,7 +225,10 @@ source install/setup.bash
 colcon build
 ```
 
-Step two is to open an additional terminal window. Remember to run `source install/setup`.bash in the new one as well. You can use whatever termainal emulator you want but I recommend `tmux` or `terminator`. One of these programs will allow you to easiy see everything that is going on without windows overlapping or having to switch between tabs.
+> [!TIP]
+> `colcon build` has to be ran every time you made changes to your packages.
+
+Step two is to open an additional terminal window. In VSCode, you can create a new terminal or split terminal (`Terminal` > `Split Terminal`) to view new terminal side-by-side. Remember to run `source install/setup.bash` in the new one as well.
 
 Step three is to start our number publisher node in either terminal. For this you can use the `ros2 run [package_name] [entry_point]` command.
 
@@ -249,7 +244,7 @@ ros2 topic echo numbers
 
 Now you should see numbers counting up from the terminal running `ros2 topic echo`. That terminal is subscribed to the messages published by the `number_publisher_node` and prints them out to the screen.
 
-You can use `^C` (Ctrl-C) to stop the processes in either terminal whenever you are done.
+You can use `Ctrl` + `C` to stop the processes in either terminal whenever you are done.
 
 ## FizzBuzz Message
 ### Custom FizzBuzz Message
@@ -277,7 +272,7 @@ ros2 pkg create --build-type ament_cmake fizzbuzz_interfaces
 ```
 
 #### Add Custom Message
-To create our new message type in ROS2, we will have to make a file named `FizzBuzz.msg` in a new folder named `msg` within the `fizzbuzz_interfaces` package. Then paste the message content above into the new file.
+To create our new message type in ROS2, we will have to make a file named `FizzBuzz.msg` in a new folder named `msg` within the `fizzbuzz_interfaces` package.
 
 ```shell
 mkdir -p ~/ros2_ws/src/fizzbuzz_interfaces/msg
@@ -299,10 +294,12 @@ tree ~/ros2_ws/src/fizzbuzz_interfaces
 └── src
 ```
 
+Now paste the message content above ([Custom FizzBuzz Message](#custom-fizzbuzz-message)) into the new file.
+
 #### Add Custom Message to Build
 Now that you have a new message file you need to add it to the build. To do this you will have to edit the file `CMakeLists.txt` as well as `package.xml` in the package.
 
-Add the following to your `CMakeLists.txt`.
+Add the following to your `CMakeLists.txt` after `find_package(ament_cmake REQUIRED)`.
 
 ```cmake
 find_package(rosidl_default_generators REQUIRED)
@@ -312,7 +309,7 @@ rosidl_generate_interfaces(${PROJECT_NAME}
 ) 
 ```
 
-And these lines to your `package.xml`.
+And these lines to your `package.xml` after `<buildtool_depend>ament_cmake</buildtool_depend>`.
 
 ```xml
 <buildtool_depend>rosidl_default_generators</buildtool_depend>
@@ -339,14 +336,14 @@ ros2 interface show fizzbuzz_interfaces/msg/FizzBuzz
 To implement the fizzbuzz node, we will return to our `fizzbuzz` package.
 
 #### Dependency
-To tell our `fizzbuzz` package that we need the custom message from our `fizzbuzz_interfaces` package, we need to add the following line to `package.xml`.
+To tell our `fizzbuzz` package that we need the custom message from our `fizzbuzz_interfaces` package, we need to add the following line to `package.xml` along other `<exec_depend>` statements.
 
 ```xml
 <exec_depend>fizzbuzz_interfaces</exec_depend>
 ```
 
 #### Code
-To implement the fizzbuzz node, we will return to our `fizzbuzz` package. Create a new file named `fizzbuzz_subscriber_node.py` in the same folder as our `number_publisher_node.py`. Here is some code to get you started.
+To implement the fizzbuzz node, create a new file named `fizzbuzz_subscriber_node.py` in the same folder as our `number_publisher_node.py`. Here is some code to get you started.
 
 ```python
 import rclpy
@@ -440,22 +437,42 @@ entry_points={
 ## Testing the FizzBuzz Node
 Let's check to make sure the FizzBuzz node is working correctly. Build the package again from the root of the workspace. Open three terminals and run the following commands.
 
-This starts up the FizzBuzz node we just made. You should see the result of fizzbuzz printed to the terminal whenever this node recives a message from the numbers topic.
-
+#### Terminal 1
 ```shell
+cd ~/ros2_ws
+colcon build --packages-select fizzbuzz
+source install/setup.bash
 ros2 run fizzbuzz fizzbuzz_subscriber
 ```
+This rebuild the `fizzbuzz` package and starts up the FizzBuzz node we just made. You should see the result of fizzbuzz printed to the terminal whenever this node receives a message from the numbers topic.
 
-This command displays the messages published to the `fizzbuzz_stats` topic. You should see the result of FizzBuzz as well as the ratio and total count in this terminal after you start the number publisher.
+> [!TIP]
+> `--packages-select` option specifies which package to build/rebuild instead of building every package in `/src` which may takes long for large ROS projects. The syntax for it is:
+> ```shell 
+> colcon build --packages-select <name-of-pkg> <name-of-another-pkg>
+> ```
+> Only 1 terminal needs to build the packages. Once the package is built, other terminals can just `source install/setup.bash`.
 
+#### Terminal 2
 ```shell
+cd ~/ros2_ws
+source install/setup.bash
+ros2 run fizzbuzz number_publisher
+```
+This runs the `number_publisher` node like earlier.
+
+#### Terminal 3
+```shell
+cd ~/ros2_ws
+source install/setup.bash
 ros2 topic echo fizzbuzz_stats
 ```
+This command displays the messages published to the `fizzbuzz_stats` topic. You should see the result of FizzBuzz as well as the ratio and total count in this terminal after you start the number publisher.
 
 ## Making a Launch File
 That was a lot of terminals we needed to play FizzBuzz! It would be great if there was a way to start multiple ROS nodes with one command. That is where launch files come in.
 
-Launch files are files that contain instructions to run a group of ROS nodes. We will now make a launch file to start both the number publisher and the fizzbuzz node. Here is an example launch file that runs the `number_publisher`. You can copy the format to make it launch the `fizzbuzz_subscriber` as well. Launch files go in a directory called launch in the package to which they belong. You can name the new launch file `fizzbuzz_launch.py` and put it in a new folder at `fizzbuzz/launch`.
+Launch files are files that contain instructions to run a group of ROS nodes. We will now make a launch file to start both the number publisher and the fizzbuzz node. Here is an example launch file that runs the `number_publisher`. You can copy the format to make it launch the `fizzbuzz_subscriber` as well. Launch files go in a directory called launch in the package to which they belong. You can name the new launch file `fizzbuzz_launch.py` and put it in a new folder at `src/fizzbuzz/launch`.
 
 ```python
 from launch import LaunchDescription
@@ -498,25 +515,30 @@ data_files=[
 ],
 ```
 
-And this to your `package.xml`.
+And this to your `package.xml` along other `<exec_depend>` statements.
 
 ```xml
 <exec_depend>ros2launch</exec_depend>
 ```
 
-Run `colcon build` again and now if we want to play FizzBuzz again we can simply open two terminals and run the following commands.
+Run `colcon build` again and now if we want to play FizzBuzz again we can simply open two terminals and run the following commands. Make sure to navigate to the workspace folder and source the installation with `cd ~/ros2_ws && source install/setup.bash` in both terminals.
 
-The `ros2 launch` command will run the launch file.
-
+#### Terminal 1
 ```shell
+cd ~/ros2_ws
+colcon build --packages-select fizzbuzz
+source install/setup.bash
 ros2 launch fizzbuzz fizzbuzz_launch.py
 ```
+The `ros2 launch` command will run the launch file for a package.
 
-To see the messages on the `fizzbuzz_stats` topic, we will still have to use the `ros2 topic echo` command.
-
+#### Terminal 2
 ```shell
+cd ~/ros2_ws
+source install/setup.bash
 ros2 topic echo fizzbuzz_stats
 ```
+The `ros2 topic echo` command will display the fizzbuzz message on the other terminal.
 
 ## RQT
 RQT is a useful tool to see what nodes are running and how messages are being transfered between them.
@@ -530,4 +552,4 @@ This command will open up an empty window. Navigate in the top menu to `Plugins 
 ROS2 has many built in tools for seeing what topics being used (`ros2 topic list`), what nodes are being run (`ros2 node list`), recording and playing back messages (`ros2 bag`), diagnosing problems while ROS2 is running (`ros2 wtf`), and many more.
 
 ## Keep Exploring!
-This tutorial has just scratched the surface of what ROS2 can do. To learn more check out the ROS2 Wiki here: https://docs.ros.org/en/humble/index.html Hopefully you found this tutorial helpful on your journey of learning ROS2.
+This tutorial has just scratched the surface of what ROS2 can do. To learn more check out the ROS2 Wiki here: https://docs.ros.org/en/jazzy/index.html Hopefully you found this tutorial helpful on your journey of learning ROS2.
