@@ -224,7 +224,8 @@ cd ~/ros2_ws
 source install/setup.bash
 colcon build
 ```
-
+> [!IMPORTANT]
+> `source install/setup.bash` add your workspace as an overlay to your ROS2 installation such that ROS2 is made aware of your packages. Therefore, new terminals also has to go to your workspace and `source install/setup.bash` before doing anything related to your ROS2 workspace.
 > [!TIP]
 > `colcon build` has to be ran every time you made changes to your packages.
 
