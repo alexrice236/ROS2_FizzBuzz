@@ -95,6 +95,9 @@ Summary: 1 package finished [2.98s]
 ## Number Publisher Node
 For the following parts, using a code editor such as [VSCode](https://code.visualstudio.com/) is recommended. VSCode can be downloaded at: https://code.visualstudio.com/Download or in Ubuntu App Center. Make sure to install the Python plugin to enable better syntax hightlighting and code hints. Open the `~/ros2_ws` folder in VSCode (`File` > `Open Folder...`) to edit files and run terminals (`Terminal` > `New Terminal` or `Ctrl` + `` ` ``) directly in VSCode.
 
+> [!TIP]
+> For Macbooks with M processors running Ubuntu in Virtualbox, please follow these instructions to install VSCode: https://creatronix.de/how-to-install-vs-code-on-ubuntu-for-arm64/
+
 Now that we have a package, it is time to create a node that publishes numbers that we can use to play the FizzBuzz game. More information on creating ROS2 nodes in python can be found here: https://docs.ros.org/en/humble/Tutorials/Writing-A-Simple-Py-Publisher-And-Subscriber.html.
 
 ### Starting off with a Minimal Publisher
