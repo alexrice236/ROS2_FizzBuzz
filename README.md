@@ -545,6 +545,10 @@ RQT is a useful tool to see what nodes are running and how messages are being tr
 
 Use your launch file to begin a game of FizzBuzz and then open RQT using the following command in a new terminal.
 
+```shell
+rqt
+```
+
 This command will open up an empty window. Navigate in the top menu to `Plugins > Introspection > Node Graph`. This will show you all of the currently running ROS nodes as circles and the topics they communicate on as arrows. For FizzBuzz this graph is only two nodes with a single topic between them, but RQT is very helpful for visualizing the connections in larger projects. RQT has many other helpful tools for inspecting messages and graphing data that you might want to explore.
 
 ![FizzBuzz RQT](https://github.com/MASLAB/ROS2_FizzBuzz/assets/19534715/5c119fc3-9594-4604-8d5d-db8ac761c3bf)
