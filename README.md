@@ -3,7 +3,7 @@
 ## Overview
 In this tutorial you will create a version of the classic FizzBuzz programming exercise using ROS2 and Python 3. 
 
-This tutorial is meant to be interactive, so the code on this page will not work by itself. You will have to make some changes and complete the parts labeled `TODO`. If you run into problems or get stuck, a completed version of the code is available at https://github.com/MASLAB/ROS2_FizzBuzz. If you find errors in this document you can also submit bug reports on that repository.
+This tutorial is meant to be interactive, so the code on this page will not work by itself. You will have to make some changes and complete the parts labeled `TODO`.
 
 ### You will
 1. Create a ROS2 workspace
@@ -15,12 +15,12 @@ This tutorial is meant to be interactive, so the code on this page will not work
 1. Examine the node structure with rqt
 
 ### Prerequisites
-If you haven't already, you will need to install ROS2. Here is a link for instructions on how to install ROS2: https://github.com/MASLAB/ros2-setup.
+If you haven't already, you will need to install ROS2. Here is a link for instructions on how to install ROS2: TODO-{add ROS setup page}
 
 To use ROS2 make sure that your ROS2 installation's setup file is sourced as part of your terminal's pre-run script. This is already set up if you used the automatic setup procedure. Or you can manually `source` the setup file in your current terminal.
 
 ```shell
-source /opt/ros/jazzy/setup.bash
+source /opt/ros/humble/setup.bash
 ```
 
 > [!TIP]
@@ -28,18 +28,18 @@ source /opt/ros/jazzy/setup.bash
 
 You can also permanently add this line to your bash profile such that it is ran everytime you open your terminal using this command:
 ``` shell
-echo "source /opt/ros/jazzy/setup.bash" >> ~/.bashrc
+echo "source /opt/ros/humble/setup.bash" >> ~/.bashrc
 ```
 
 ## Creating a Workspace
-To start working with ROS2 you will need a workspace. To create one you can run the following command. It will make a workspace in your home (`~`) directory called `ros2_ws` and a `src` directory inside the workspace where your packages will go. For more information on setting up a workspace see this tutorial: https://docs.ros.org/en/jazzy/Tutorials/Beginner-Client-Libraries/Creating-A-Workspace/Creating-A-Workspace.html.
+To start working with ROS2 you will need a workspace. To create one you can run the following command. It will make a workspace in your home (`~`) directory called `ros2_ws` and a `src` directory inside the workspace where your packages will go. For more information on setting up a workspace see this tutorial: https://docs.ros.org/en/humble/Tutorials/Beginner-Client-Libraries/Creating-A-Workspace/Creating-A-Workspace.html.
 
 ``` shell
 mkdir -p ~/ros2_ws/src
 ```
 
 ## Creating a Package
-For more information regarding ROS2 packages, see this tutorial: https://docs.ros.org/en/jazzy/Tutorials/Creating-Your-First-ROS2-Package.html.  
+For more information regarding ROS2 packages, see this tutorial: https://docs.ros.org/en/humble/Tutorials/Creating-Your-First-ROS2-Package.html.  
 
 ### Making the `fizzbuzz` Package
 ROS2 supports packages written in Python, c++, or combination of both. More information about different package setup is available in the tutorial link above. In this tutorial, you are going to make a Python package.
@@ -95,9 +95,6 @@ Summary: 1 package finished [2.98s]
 ## Number Publisher Node
 For the following parts, using a code editor such as [VSCode](https://code.visualstudio.com/) is recommended. VSCode can be downloaded at: https://code.visualstudio.com/Download or in Ubuntu App Center. Make sure to install the Python plugin to enable better syntax hightlighting and code hints. Open the `~/ros2_ws` folder in VSCode (`File` > `Open Folder...`) to edit files and run terminals (`Terminal` > `New Terminal` or `Ctrl` + `` ` ``) directly in VSCode.
 
-> [!TIP]
-> For Macbooks with M processors running Ubuntu in Virtualbox, please follow these instructions to install VSCode: https://creatronix.de/how-to-install-vs-code-on-ubuntu-for-arm64/
-
 Now that we have a package, it is time to create a node that publishes numbers that we can use to play the FizzBuzz game. More information on creating ROS2 nodes in python can be found here: https://docs.ros.org/en/humble/Tutorials/Writing-A-Simple-Py-Publisher-And-Subscriber.html.
 
 ### Starting off with a Minimal Publisher
@@ -146,7 +143,7 @@ if __name__ == '__main__':
 ```
 
 #### Explanation
-The python file can be broken down into four parts.
+The Python file can be broken down into four parts.
 1. The imports at the top of the file
 1. The node class
 1. The main function
@@ -177,7 +174,7 @@ The main function first initializes the `rclpy` library and then calls `rclpy.sp
         main()
 ```
 
-If you have never seen this syntax before it is a way to only run code if the python file is run directly and not if it has been imported into another file. In this case it just calls the main function.
+If you have never seen this syntax before, it is a way to only run code if the python file is run directly and not if it has been imported into another file. In this case it just calls the main function.
 
 ### Start Counting!
 Right now this minimal publisher node publishes strings instead of numbers. We need to customize the example to our use case.
@@ -186,7 +183,7 @@ Right now this minimal publisher node publishes strings instead of numbers. We n
 First let's change all the places where it says `MinimalPublisher` or `minimal_publisher` to `NumberPublisher` or `number_publisher` respectively. Make sure you change the name in the `super().__init__` function call as well. This function lets the rest of ROS know what the node's name is. 
 
 #### Change the Message Type
-Right now the message being used is the `std_msgs/String` message. For the number publisher we want to publish integers. Find the appropriate message type to replace with String. The list of all of the messages in `std_msgs` can be found [here](https://github.com/ros2/common_interfaces/blob/jazzy/std_msgs/README.md). Make sure to replace the message type in the import, where the publisher is created, and in the callback. Rename the topic from `topic` to something more descriptive such as `numbers`. 
+Right now the message being used is the `std_msgs/String` message. For the number publisher we want to publish integers. Find the appropriate message type to replace with String. The list of all of the messages in `std_msgs` can be found [here](https://github.com/ros2/common_interfaces/blob/humble/std_msgs/README.md). Make sure to replace the message type in the import, where the publisher is created, and in the callback. Rename the topic from `topic` to something more descriptive such as `numbers`. 
 
 #### Make it Count!
 Now the node is nearly all set up to publish integers instead of strings. All that is
@@ -217,7 +214,7 @@ entry_points={
 This tells `colcon` build system that our package has an entry point named `number_publisher` which will invoke the `main` function in our `number_publisher_node` code of our `fizzbuzz` package.
 
 ## Testing the Number Publisher Node
-Now it is time to see your hard work in action. Lets test the number
+Now it is time to see your hard work in action. Let's test the number
 publisher node to make sure it is functioning properly.
 
 First you will have to build your package again. To do this source your workspace setup file, which was created in the `install` directory last time we ran `colcon build`, and run `colcon build` from the root of your workspace.
@@ -228,10 +225,10 @@ source install/setup.bash
 colcon build
 ```
 > [!IMPORTANT]
-> `source install/setup.bash` add your workspace as an overlay to your ROS2 installation such that ROS2 is made aware of your packages. Therefore, new terminals also has to go to your workspace and `source install/setup.bash` before doing anything related to your ROS2 workspace.
+> `source install/setup.bash` add your workspace as an overlay to your ROS2 installation such that ROS2 is made aware of your packages. Therefore, new terminals also have to go to your workspace and `source install/setup.bash` before doing anything related to your ROS2 workspace.
 
 > [!TIP]
-> `colcon build` has to be ran every time you made changes to your packages.
+> `colcon build` has to be run every time you made changes to your packages.
 
 Step two is to open an additional terminal window. In VSCode, you can create a new terminal or split terminal (`Terminal` > `Split Terminal`) to view new terminal side-by-side. Remember to run `source install/setup.bash` in the new one as well.
 
@@ -269,7 +266,7 @@ The string `fizzbuzz` will either be `fizz` if the number is divisible by 3, `bu
 To create a new message type in ROS2, we will have to make a new package for generating messages (and/or services) that other packages can depend on.
 
 #### Create Custom Interfaces Package
-We first create a c++ ROS2 package in the `src` folder of our `ros2_ws` workspace with `--build-type ament_cmake`. This is necessary because ROS2 package generator (`rosidl_default_generators`) runs on c++.
+We first create a C++ ROS2 package in the `src` folder of our `ros2_ws` workspace with `--build-type ament_cmake`. This is necessary because ROS2 package generator (`rosidl_default_generators`) runs on C++.
 
 ```shell
 cd ~/ros2_ws/src
@@ -561,4 +558,4 @@ This command will open up an empty window. Navigate in the top menu to `Plugins 
 ROS2 has many built in tools for seeing what topics being used (`ros2 topic list`), what nodes are being run (`ros2 node list`), recording and playing back messages (`ros2 bag`), diagnosing problems while ROS2 is running (`ros2 wtf`), and many more.
 
 ## Keep Exploring!
-This tutorial has just scratched the surface of what ROS2 can do. To learn more check out the ROS2 Wiki here: https://docs.ros.org/en/jazzy/index.html Hopefully you found this tutorial helpful on your journey of learning ROS2.
+This tutorial has just scratched the surface of what ROS2 can do. To learn more check out the ROS2 Wiki here: https://docs.ros.org/en/humbe/index.html Hopefully you found this tutorial helpful on your journey of learning ROS2.
